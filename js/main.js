@@ -1,219 +1,164 @@
-//References
-let timeLeft = document.querySelector(".time-left");
-let quizContainer = document.getElementById("container");
-let nextBtn = document.getElementById("next-button");
-let countOfQuestion = document.querySelector(".number-of-question");
-let displayContainer = document.getElementById("display-container");
-let scoreContainer = document.querySelector(".score-container");
-let restart = document.getElementById("restart");
-let userScore = document.getElementById("user-score");
-let startScreen = document.querySelector(".start-screen");
-let startButton = document.getElementById("start-button");
-let questionCount;
-let scoreCount = 0;
-let count = 11;
-let countdown;
 
-//Questions and Options array
+function showSecondInterface() {
+    var container = document.querySelector('.container');
+    var quizContainer = document.querySelector('.quizContainer');
 
-const quizArray = [
+    container.style.display = 'none';
+    quizContainer.style.display = 'block';
+}
+
+const quizData = [
+    // 1
     {
-        id: "0",
         question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
+        a: "Hypertext Markup Language",
+        b: "Hypertext Markdown Language",
+        c: "Hyperloop Machine Language",
+        d: "Helicopters Terminals Motorboats Lamborginis",
+        correct: "a",
     },
+    // 2
     {
-        id: "1",
-        question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
+        question: "What is the element used to specify the title of the page?",
+        a: "head",
+        b: "title",
+        c: "img",
+        d: "header",
+        correct: "b",
     },
+    // 3
     {
-        id: "2",
-        question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
+        question: "What is the element used to define a paragraph in HTML?",
+        a: "h3",
+        b: "b",
+        c: "span",
+        d: "p",
+        correct: "d",
     },
+    // 4
     {
-        id: "3",
-        question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
+        question: "What does CSS stand for?",
+        a: "Central Style Sheets",
+        b: "Cascading Style Sheets",
+        c: "Cascading Simple Sheets",
+        d: "Cars SUVs Sailboats",
+        correct: "b",
     },
+    // 5
     {
-        id: "4",
-        question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
+        question: "What is the element used to define a paragraph in HTML?",
+        a: "h3",
+        b: "b",
+        c: "span",
+        d: "p",
+        correct: "d",
     },
+    // 5
     {
-        id: "5",
         question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
-    }, {
-        id: "6",
-        question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
+        a: "Hypertext Markup Language",
+        b: "Hypertext Markdown Language",
+        c: "Hyperloop Machine Language",
+        d: "Helicopters Terminals Motorboats Lamborginis",
+        correct: "a",
     },
+    // 6
     {
-        id: "7",
-        question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
+        question: "What tool is used to style fonts in web design?",
+        a: "CSS Grid",
+        b: "CSS Flexbox",
+        c: "CSS Typography",
+        d: "no one",
+        correct: "c",
     },
+    // 7
     {
-        id: "8",
-        question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
+        question: "What is the element used to define a images in HTML?",
+        a: "h3",
+        b: "img",
+        c: "span",
+        d: "p",
+        correct: "b",
     },
+    // 8
     {
-        id: "9",
-        question: "What does HTML stand for?",
-        options: [" Hyperlinks and Text Markup Language", " Hyper Text Markup Language", " Hyperlinks and Text Markup Language"],
-        correct: "Hyper Text Markup Language",
+        question: "What is the element used to define a paragraph in HTML?",
+        a: "h3",
+        b: "b",
+        c: "span",
+        d: "p",
+        correct: "d",
     },
+    // 9
+    {
+        question: "What does CSS stand for?",
+        a: "Central Style Sheets",
+        b: "Cascading Style Sheets",
+        c: "Cascading Simple Sheets",
+        d: "Cars SUVs Sailboats",
+        correct: "b",
+    },
+    // 10
+    {
+        question: "What is the element used to specify the title of the page?",
+        a: "head",
+        b: "title",
+        c: "img",
+        d: "header",
+        correct: "b",
+    },
+
 ];
+const quiz = document.getElementById('quiz')
+const answerEls = document.querySelectorAll('.answer')
+const questionEl = document.getElementById('question')
+const a_text = document.getElementById('a_text')
+const b_text = document.getElementById('b_text')
+const c_text = document.getElementById('c_text')
+const d_text = document.getElementById('d_text')
+const submitBtn = document.getElementById('submit')
 
-//Restart Quiz
-restart.addEventListener("click", () => {
-    initial();
-    displayContainer.classList.remove("hide");
-    scoreContainer.classList.add("hide");
-});
+let currentQuiz = 0
+let score = 0
 
-//Next Button
-nextBtn.addEventListener(
-    "click",
-    (displayNext = () => {
-        //increment questionCount
-        questionCount += 1;
-        //if last question
-        if (questionCount == quizArray.length) {
-            //hide question container and display score
-            displayContainer.classList.add("hide");
-            scoreContainer.classList.remove("hide");
-            //user score
-            userScore.innerHTML =
-                "Your score is " + scoreCount + " out of " + questionCount;
-        } else {
-            //display questionCount
-            countOfQuestion.innerHTML =
-                questionCount + 1 + " of " + quizArray.length + " Question";
-            //display quiz
-            quizDisplay(questionCount);
-            count = 11;
-            clearInterval(countdown);
-            timerDisplay();
+loadQuiz()
+
+function loadQuiz() {
+    deselectAnswers()
+    const currentQuizData = quizData[currentQuiz]
+    questionEl.innerText = currentQuizData.question
+    a_text.innerText = currentQuizData.a
+    b_text.innerText = currentQuizData.b
+    c_text.innerText = currentQuizData.c
+    d_text.innerText = currentQuizData.d
+}
+
+function deselectAnswers() {
+    answerEls.forEach(answerEl => answerEl.checked = false)
+}
+function getSelected() {
+    let answer
+    answerEls.forEach(answerEl => {
+        if (answerEl.checked) {
+            answer = answerEl.id
         }
     })
-);
-
-//Timer
-const timerDisplay = () => {
-    countdown = setInterval(() => {
-        count--;
-        timeLeft.innerHTML = `${count}s`;
-        if (count == 0) {
-            clearInterval(countdown);
-            displayNext();
+    return answer
+}
+submitBtn.addEventListener('click', () => {
+    const answer = getSelected()
+    if (answer) {
+        if (answer === quizData[currentQuiz].correct) {
+            score++
         }
-    }, 1000);
-};
-
-//Display quiz
-const quizDisplay = (questionCount) => {
-    let quizCards = document.querySelectorAll(".container-mid");
-    //Hide other cards
-    quizCards.forEach((card) => {
-        card.classList.add("hide");
-    });
-    //display current question card
-    quizCards[questionCount].classList.remove("hide");
-};
-
-//Quiz Creation
-function quizCreator() {
-    //randomly sort questions
-    quizArray.sort(() => Math.random() - 0.5);
-    //generate quiz
-    for (let i of quizArray) {
-        //randomly sort options
-        i.options.sort(() => Math.random() - 0.5);
-        //quiz card creation
-        let div = document.createElement("div");
-        div.classList.add("container-mid", "hide");
-        //question number
-        countOfQuestion.innerHTML = 1 + " of " + quizArray.length + " Question";
-        //question
-        let question_DIV = document.createElement("p");
-        question_DIV.classList.add("question");
-        question_DIV.innerHTML = i.question;
-        div.appendChild(question_DIV);
-        //options
-        div.innerHTML += `
-    <button class="option-div" onclick="checker(this)">${i.options[0]}</button>
-     <button class="option-div" onclick="checker(this)">${i.options[1]}</button>
-      <button class="option-div" onclick="checker(this)">${i.options[2]}</button>
-       <button class="option-div" onclick="checker(this)">${i.options[3]}</button>
-    `;
-        quizContainer.appendChild(div);
+        currentQuiz++
+        if (currentQuiz < quizData.length) {
+            loadQuiz()
+        } else {
+            quiz.innerHTML = `
+           <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+           <button onclick="location.reload()">Reload</button>
+           `
+        }
     }
-}
-
-//Checker Function to check if option is correct or not
-function checker(userOption) {
-    let userSolution = userOption.innerText;
-    let question =
-        document.getElementsByClassName("container-mid")[questionCount];
-    let options = question.querySelectorAll(".option-div");
-
-    //if user clicked answer == correct option stored in object
-    if (userSolution === quizArray[questionCount].correct) {
-        userOption.classList.add("correct");
-        scoreCount++;
-    } else {
-        userOption.classList.add("incorrect");
-        //For marking the correct option
-        options.forEach((element) => {
-            if (element.innerText == quizArray[questionCount].correct) {
-                element.classList.add("correct");
-            }
-        });
-    }
-
-    //clear interval(stop timer)
-    clearInterval(countdown);
-    //disable all options
-    options.forEach((element) => {
-        element.disabled = true;
-    });
-}
-
-//initial setup
-function initial() {
-    quizContainer.innerHTML = "";
-    questionCount = 0;
-    scoreCount = 0;
-    count = 11;
-    clearInterval(countdown);
-    timerDisplay();
-    quizCreator();
-    quizDisplay(questionCount);
-}
-
-//when user click on start button
-startButton.addEventListener("click", () => {
-    startScreen.classList.add("hide");
-    displayContainer.classList.remove("hide");
-    initial();
-});
-
-//hide quiz and display start screen
-window.onload = () => {
-    startScreen.classList.remove("hide");
-    displayContainer.classList.add("hide");
-};
+})

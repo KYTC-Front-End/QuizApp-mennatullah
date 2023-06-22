@@ -107,11 +107,12 @@ button:focus {
 	outline: none;
 	background-color: #44b927;
 }
-#counter{
+
+#counter {
 	margin-left: 28rem;
 	font-size: 2rem;
 	color: red;
 	background-color: #d7dfdf;
-	padding:0.5rem 1rem ;
+	padding: 0.5rem 1rem;
 	border-radius: 0.5rem;
 }
