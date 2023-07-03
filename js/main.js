@@ -1,12 +1,3 @@
-
-function showSecondInterface() {
-    var container = document.querySelector('.container');
-    var quizContainer = document.querySelector('.quizContainer');
-
-    container.style.display = 'none';
-    quizContainer.style.display = 'block';
-}
-
 const quizData = [
     // 1
     {
@@ -116,28 +107,43 @@ const a_text = document.getElementById('a_text')
 const b_text = document.getElementById('b_text')
 const c_text = document.getElementById('c_text')
 const d_text = document.getElementById('d_text')
-const submitBtn = document.getElementById('submit')
+const submitBtn = document.getElementById('start');
+const nextQuestion = document.querySelector('#next');
 
 let currentQuiz = 0
 let score = 0
+// 
+
+
+
+
+function showSecondInterface() {
+    var container = document.querySelector('.container');
+    var quizContainer = document.querySelector('.quizContainer');
+
+    container.style.display = 'none';
+    quizContainer.style.display = 'block';
+}
+
+
 
 loadQuiz()
 
 function loadQuiz() {
-    deselectAnswers()
+    deselectAnswers();
     const currentQuizData = quizData[currentQuiz]
-    questionEl.innerText = currentQuizData.question
-    a_text.innerText = currentQuizData.a
-    b_text.innerText = currentQuizData.b
-    c_text.innerText = currentQuizData.c
-    d_text.innerText = currentQuizData.d
+    questionEl.textContent = currentQuizData.question
+    a_text.textContent = currentQuizData.a
+    b_text.textContent = currentQuizData.b
+    c_text.textContent = currentQuizData.c
+    d_text.textContent = currentQuizData.d
 }
 
 function deselectAnswers() {
     answerEls.forEach(answerEl => answerEl.checked = false)
 }
 function getSelected() {
-    let answer
+    let answer;
     answerEls.forEach(answerEl => {
         if (answerEl.checked) {
             answer = answerEl.id
@@ -145,20 +151,34 @@ function getSelected() {
     })
     return answer
 }
-submitBtn.addEventListener('click', () => {
+nextQuestion.addEventListener('click', (e) => {
+    e.preventDefault();
     const answer = getSelected()
-    if (answer) {
+    if (answer != "") {
+        currentQuiz++;
+        // score++;
+
         if (answer === quizData[currentQuiz].correct) {
-            score++
+            currentQuiz++;
+            score++;
+
         }
-        currentQuiz++
+
         if (currentQuiz < quizData.length) {
             loadQuiz()
         } else {
-            quiz.innerHTML = `
+            quiz.textContent = `
            <h2>You answered ${score}/${quizData.length} questions correctly</h2>
            <button onclick="location.reload()">Reload</button>
            `
         }
     }
 })
+
+
+
+
+function incrementCounter() {
+    counter++;
+    document.getElementById("counter").innerHTML = counter;
+}
