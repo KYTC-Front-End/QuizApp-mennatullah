@@ -120,6 +120,7 @@ function showSecondInterface() {
         error.textContent = "user name is required ";
     }
     else {
+        localStorage.setItem("userName", nameInput.value);
         var container = document.querySelector('.container');
         var quizContainer = document.querySelector('.quizContainer');
 
@@ -178,5 +179,6 @@ nextQuestion.addEventListener('click', (e) => {
              ${score}/${quizData.length}
              </h2>
          `;
+        localStorage.setItem("score", score);
     }
 })
