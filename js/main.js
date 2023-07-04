@@ -109,7 +109,7 @@ const c_text = document.getElementById('c_text')
 const d_text = document.getElementById('d_text')
 const submitBtn = document.getElementById('start');
 const nextQuestion = document.querySelector('#next');
-
+const counter = document.getElementById('counter');
 const nameInput = document.querySelector('.name-input');
 const error = document.getElementById('error-message');
 
@@ -130,7 +130,7 @@ function showSecondInterface() {
     else {
         var container = document.querySelector('.container');
         var quizContainer = document.querySelector('.quizContainer');
-    
+
         container.style.display = 'none';
         quizContainer.style.display = 'block';
     }
@@ -162,34 +162,51 @@ function getSelected() {
     })
     return answer
 }
+
 nextQuestion.addEventListener('click', (e) => {
     e.preventDefault();
     const answer = getSelected()
-    if (answer != "") {
-        currentQuiz++;
-        // score++;
 
-        if (answer === quizData[currentQuiz].correct) {
-            currentQuiz++;
-            score++;
+    if (answer === quizData[currentQuiz].correct) {
+        score++;
 
-        }
+    }
+    currentQuiz++;
+    counter.textContent = `${currentQuiz}`;
 
-        if (currentQuiz < quizData.length) {
-            loadQuiz()
-        } else {
-            quiz.textContent = `
-           <h2>You answered ${score}/${quizData.length} questions correctly</h2>
-           <button onclick="location.reload()">Reload</button>
+    if (currentQuiz < quizData.length) {
+        loadQuiz()
+    }
+    else {
+        quiz.textContent = `
+          ${score}/${quizData.length}
            `
-        }
+
     }
 })
 
 
+// nextQuestion.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     const answer = getSelected()
+//     if (answer != "") {
+//         currentQuiz++;
+//         // score++;
 
+//         if (answer === quizData[currentQuiz].correct) {
+//             // currentQuiz++;
+//             score++;
+//         }
+//         currentQuiz++;
 
-function incrementCounter() {
-    counter++;
-    document.getElementById("counter").innerHTML = counter;
-}
+//         if (currentQuiz < quizData.length) {
+//             loadQuiz()
+//         }
+//         else {
+//             quiz.textContent = `
+//            <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+//            <button onclick="location.reload()">Reload</button>
+//            `
+//         }
+//     }
+// })
