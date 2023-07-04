@@ -179,6 +179,13 @@ nextQuestion.addEventListener('click', (e) => {
              ${score}/${quizData.length}
              </h2>
          `;
-        localStorage.setItem("score", score);
+        // localStorage.setItem("score", score);
+
+        const userName = localStorage.getItem("userName"); 
+        const playerScore = score; 
+
+        const playersData = JSON.parse(localStorage.getItem("playersData")) || [];
+        playersData.push({ name: userName, score: playerScore });
+        localStorage.setItem("playersData", JSON.stringify(playersData));
     }
 })
