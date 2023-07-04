@@ -110,19 +110,30 @@ const d_text = document.getElementById('d_text')
 const submitBtn = document.getElementById('start');
 const nextQuestion = document.querySelector('#next');
 
+const nameInput = document.querySelector('.name-input');
+const error = document.getElementById('error-message');
+
+
+
+
+
 let currentQuiz = 0
 let score = 0
 // 
 
 
 
-
 function showSecondInterface() {
-    var container = document.querySelector('.container');
-    var quizContainer = document.querySelector('.quizContainer');
-
-    container.style.display = 'none';
-    quizContainer.style.display = 'block';
+    if (nameInput.value == "") {
+        error.textContent = "user name is required ";
+    }
+    else {
+        var container = document.querySelector('.container');
+        var quizContainer = document.querySelector('.quizContainer');
+    
+        container.style.display = 'none';
+        quizContainer.style.display = 'block';
+    }
 }
 
 
