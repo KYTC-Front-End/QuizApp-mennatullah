@@ -44,15 +44,7 @@ const quizData = [
         d: "p",
         correct: "d",
     },
-    // 5
-    {
-        question: "What does HTML stand for?",
-        a: "Hypertext Markup Language",
-        b: "Hypertext Markdown Language",
-        c: "Hyperloop Machine Language",
-        d: "Helicopters Terminals Motorboats Lamborginis",
-        correct: "a",
-    },
+
     // 6
     {
         question: "What tool is used to style fonts in web design?",
@@ -178,35 +170,13 @@ nextQuestion.addEventListener('click', (e) => {
         loadQuiz()
     }
     else {
-        quiz.textContent = `
-          ${score}/${quizData.length}
-           `
-
+        quiz.innerHTML = `
+           <h2 style="font-weight: bold;
+            font-size: 4.2rem; 
+            text-align: center;
+             color: #F24C3D;">
+             ${score}/${quizData.length}
+             </h2>
+         `;
     }
 })
-
-
-// nextQuestion.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     const answer = getSelected()
-//     if (answer != "") {
-//         currentQuiz++;
-//         // score++;
-
-//         if (answer === quizData[currentQuiz].correct) {
-//             // currentQuiz++;
-//             score++;
-//         }
-//         currentQuiz++;
-
-//         if (currentQuiz < quizData.length) {
-//             loadQuiz()
-//         }
-//         else {
-//             quiz.textContent = `
-//            <h2>You answered ${score}/${quizData.length} questions correctly</h2>
-//            <button onclick="location.reload()">Reload</button>
-//            `
-//         }
-//     }
-// })
